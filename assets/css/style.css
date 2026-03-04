@@ -1,0 +1,204 @@
+/* Custom Styles for Sistem Inventaris Dinas Sosial Lampung */
+
+/* Catalina Blue Color Palette */
+:root {
+  --catalina-50: #eaf8ff;
+  --catalina-100: #d0f0ff;
+  --catalina-200: #abe7ff;
+  --catalina-300: #71daff;
+  --catalina-400: #2ec2ff;
+  --catalina-500: #009cff;
+  --catalina-600: #0074ff;
+  --catalina-700: #005aff;
+  --catalina-800: #004bde;
+  --catalina-900: #0045ad;
+  --catalina-950: #04337c;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--catalina-400);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--catalina-500);
+}
+
+/* Focus styles */
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--catalina-500) !important;
+  box-shadow: 0 0 0 3px rgba(0, 156, 255, 0.2);
+}
+
+/* Button hover animations */
+.btn-primary {
+  background: linear-gradient(135deg, var(--catalina-600), var(--catalina-700));
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, var(--catalina-700), var(--catalina-800));
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 116, 255, 0.4);
+}
+
+/* Card hover effects */
+.card-hover {
+  transition: all 0.3s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Sidebar styles */
+.sidebar {
+  background: linear-gradient(180deg, var(--catalina-900), var(--catalina-950));
+}
+
+.sidebar-link {
+  transition: all 0.2s ease;
+}
+
+.sidebar-link:hover {
+  background: rgba(255, 255, 255, 0.1);
+  padding-left: 1.5rem;
+}
+
+.sidebar-link.active {
+  background: rgba(255, 255, 255, 0.15);
+  border-left: 3px solid var(--catalina-400);
+}
+
+/* Table styles */
+.table-hover tbody tr:hover {
+  background-color: var(--catalina-50);
+}
+
+/* Badge styles */
+.badge-baik {
+  background-color: #10b981;
+  color: white;
+}
+
+.badge-rusak-ringan {
+  background-color: #f59e0b;
+  color: white;
+}
+
+.badge-rusak-berat {
+  background-color: #ef4444;
+  color: white;
+}
+
+.badge-hilang {
+  background-color: #6b7280;
+  color: white;
+}
+
+/* Status badges */
+.badge-pending {
+  background-color: #f59e0b;
+  color: white;
+}
+
+.badge-disetujui {
+  background-color: #10b981;
+  color: white;
+}
+
+.badge-ditolak {
+  background-color: #ef4444;
+  color: white;
+}
+
+.badge-dipinjam {
+  background-color: var(--catalina-500);
+  color: white;
+}
+
+.badge-dikembalikan {
+  background-color: #6b7280;
+  color: white;
+}
+
+/* Loading animation */
+.loading-spinner {
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid var(--catalina-500);
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Fade in animation */
+.fade-in {
+  animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Alert styles */
+.alert {
+  padding: 1rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.alert-success {
+  background-color: #d1fae5;
+  border: 1px solid #10b981;
+  color: #065f46;
+}
+
+.alert-error {
+  background-color: #fee2e2;
+  border: 1px solid #ef4444;
+  color: #991b1b;
+}
+
+.alert-warning {
+  background-color: #fef3c7;
+  border: 1px solid #f59e0b;
+  color: #92400e;
+}
+
+.alert-info {
+  background-color: var(--catalina-100);
+  border: 1px solid var(--catalina-500);
+  color: var(--catalina-900);
+}
