@@ -26,17 +26,17 @@ try {
     $menungguPersetujuan = $pdo->query("SELECT COUNT(*) FROM peminjaman WHERE status = 'pending'")->fetchColumn();
 
     // Barang kondisi baik
-    $barangBaik = $pdo->query("SELECT COUNT(*) FROM barang WHERE kondisi = 'baik'")->fetchColumn();
+    $barangBaik = $pdo->query("SELECT COUNT(*) FROM barang b JOIN kondisi kd ON b.kondisi_id = kd.id WHERE kd.nama_kondisi = 'Baik'")->fetchColumn();
 
     // Barang bermasalah (rusak + hilang)
-    $barangBermasalah = $pdo->query("SELECT COUNT(*) FROM barang WHERE kondisi IN ('rusak_ringan', 'rusak_berat', 'hilang')")->fetchColumn();
-    $barangHilang = $pdo->query("SELECT COUNT(*) FROM barang WHERE kondisi = 'hilang'")->fetchColumn();
+    $barangBermasalah = $pdo->query("SELECT COUNT(*) FROM barang b JOIN kondisi kd ON b.kondisi_id = kd.id WHERE kd.nama_kondisi IN ('Rusak Ringan', 'Rusak Berat', 'Hilang')")->fetchColumn();
+    $barangHilang = $pdo->query("SELECT COUNT(*) FROM barang b JOIN kondisi kd ON b.kondisi_id = kd.id WHERE kd.nama_kondisi = 'Hilang'")->fetchColumn();
 
     // Kondisi barang untuk chart
-    $kondisiBaik = $pdo->query("SELECT COUNT(*) FROM barang WHERE kondisi = 'baik'")->fetchColumn();
-    $kondisiRusakRingan = $pdo->query("SELECT COUNT(*) FROM barang WHERE kondisi = 'rusak_ringan'")->fetchColumn();
-    $kondisiRusakBerat = $pdo->query("SELECT COUNT(*) FROM barang WHERE kondisi = 'rusak_berat'")->fetchColumn();
-    $kondisiHilang = $pdo->query("SELECT COUNT(*) FROM barang WHERE kondisi = 'hilang'")->fetchColumn();
+    $kondisiBaik = $pdo->query("SELECT COUNT(*) FROM barang b JOIN kondisi kd ON b.kondisi_id = kd.id WHERE kd.nama_kondisi = 'Baik'")->fetchColumn();
+    $kondisiRusakRingan = $pdo->query("SELECT COUNT(*) FROM barang b JOIN kondisi kd ON b.kondisi_id = kd.id WHERE kd.nama_kondisi = 'Rusak Ringan'")->fetchColumn();
+    $kondisiRusakBerat = $pdo->query("SELECT COUNT(*) FROM barang b JOIN kondisi kd ON b.kondisi_id = kd.id WHERE kd.nama_kondisi = 'Rusak Berat'")->fetchColumn();
+    $kondisiHilang = $pdo->query("SELECT COUNT(*) FROM barang b JOIN kondisi kd ON b.kondisi_id = kd.id WHERE kd.nama_kondisi = 'Hilang'")->fetchColumn();
 
     // Barang per kategori
     $barangPerKategori = $pdo->query("
@@ -64,9 +64,10 @@ try {
 
     // Barang terbaru
     $barangTerbaru = $pdo->query("
-        SELECT b.*, k.nama_kategori 
+        SELECT b.*, k.nama_kategori, kd.nama_kondisi 
         FROM barang b 
         LEFT JOIN kategori k ON b.kategori_id = k.id 
+        LEFT JOIN kondisi kd ON b.kondisi_id = kd.id 
         ORDER BY b.created_at DESC 
         LIMIT 5
     ")->fetchAll();
@@ -524,20 +525,15 @@ $kategoriData = array_column($barangPerKategori, 'jumlah');
                                             </div>
                                         </div>
                                         <?php
-                                        $kondisiClass = match ($b['kondisi']) {
-                                            'baik' => 'bg-emerald-100 text-emerald-700',
-                                            'rusak_ringan' => 'bg-amber-100 text-amber-700',
-                                            'rusak_berat' => 'bg-red-100 text-red-700',
-                                            'hilang' => 'bg-gray-100 text-gray-700',
+                                        $namaKondisi = strtolower($b['nama_kondisi'] ?? '');
+                                        $kondisiClass = match (true) {
+                                            str_contains($namaKondisi, 'baik') => 'bg-emerald-100 text-emerald-700',
+                                            str_contains($namaKondisi, 'rusak ringan') => 'bg-amber-100 text-amber-700',
+                                            str_contains($namaKondisi, 'rusak berat') => 'bg-red-100 text-red-700',
+                                            str_contains($namaKondisi, 'hilang') => 'bg-gray-100 text-gray-700',
                                             default => 'bg-gray-100 text-gray-700'
                                         };
-                                        $kondisiText = match ($b['kondisi']) {
-                                            'baik' => 'Baik',
-                                            'rusak_ringan' => 'Rusak Ringan',
-                                            'rusak_berat' => 'Rusak Berat',
-                                            'hilang' => 'Hilang',
-                                            default => $b['kondisi']
-                                        };
+                                        $kondisiText = $b['nama_kondisi'] ?? 'Tidak Diketahui';
                                         ?>
                                         <span
                                             class="px-3 py-1 rounded-full text-xs font-medium <?= $kondisiClass ?>"><?= $kondisiText ?></span>
