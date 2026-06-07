@@ -10,6 +10,18 @@ requireRole(['admin', 'petugas']);
 $user = currentUser();
 $pageTitle = 'Data Barang';
 
+// Handle success/updated messages from redirects
+if (isset($_GET['success'])) {
+    if ($_GET['success'] == '1') {
+        $success = 'Barang berhasil ditambahkan!';
+    } else {
+        $success = htmlspecialchars($_GET['success']);
+    }
+}
+if (isset($_GET['updated']) && $_GET['updated'] == '1') {
+    $success = 'Barang berhasil diubah!';
+}
+
 // Handle delete
 if (isset($_GET['delete']) && is_numeric($_GET['delete'])) {
     try {
@@ -330,10 +342,16 @@ try {
                 <!-- Header Actions -->
                 <div class="bg-white rounded-2xl p-4 lg:p-6 border border-gray-200 mb-6">
                     <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-                        <a href="tambah.php"
-                            class="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-catalina-600 hover:bg-catalina-700 text-white rounded-xl font-medium transition-all">
-                            <i class="fas fa-plus"></i>Tambah Barang
-                        </a>
+                        <div class="flex flex-wrap gap-2">
+                            <a href="tambah.php"
+                                class="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-catalina-600 hover:bg-catalina-700 text-white rounded-xl font-medium transition-all">
+                                <i class="fas fa-plus"></i>Tambah Barang
+                            </a>
+                            <a href="pindah.php"
+                                class="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-amber-600 hover:bg-amber-700 text-white rounded-xl font-medium transition-all">
+                                <i class="fas fa-exchange-alt"></i>Pindah Barang
+                            </a>
+                        </div>
 
                         <!-- Search & Filter -->
                         <form method="GET" class="flex flex-col sm:flex-row gap-3 flex-1 lg:max-w-2xl">
@@ -433,6 +451,11 @@ try {
                                                         title="Tambah Stok">
                                                         <i class="fas fa-plus"></i>
                                                     </button>
+                                                    <a href="pindah.php?id=<?= $b['id'] ?>"
+                                                        class="p-2 text-amber-600 hover:bg-amber-50 rounded-lg"
+                                                        title="Pindah Barang">
+                                                        <i class="fas fa-exchange-alt"></i>
+                                                    </a>
                                                     <a href="edit.php?id=<?= $b['id'] ?>"
                                                         class="p-2 text-catalina-600 hover:bg-catalina-50 rounded-lg"
                                                         title="Edit">
